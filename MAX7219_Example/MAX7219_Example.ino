@@ -41,7 +41,7 @@ void loop() {
   // EXAMPLE 1: Print a number on each panel
   for (int panel = 0; panel < NumberOfPanels; panel++) {
     // Option 1: Set the data for the whole panel (top-to-bottom)
-    // LEDPanels->SetPanel(panel, ASCIINumbers[panel]);
+    LEDPanels->SetPanel(panel, ASCIINumbers[panel]);
 
     // Option 2: Render one row at a time
     // for (int row = 0; row < 8; row++) {
@@ -54,9 +54,9 @@ void loop() {
     // LEDPanels->SetFlippedPanel(panel, ASCIINumbers[panel]);
 
     // Option 2: Render one row at a time
-    for (int row = 0; row < 8; row++) {
-      LEDPanels->SetFlippedRow(panel, row, ASCIINumbers[panel][row]);
-    }
+    // for (int row = 0; row < 8; row++) {
+    //   LEDPanels->SetFlippedRow(panel, row, ASCIINumbers[panel][row]);
+    // }
   }
 
 
