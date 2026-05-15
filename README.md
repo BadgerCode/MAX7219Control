@@ -12,7 +12,7 @@ A C library for controlling MAX7219 8x8 LED panels from Arduinos and similar mic
 
 ## Performance
 
-Performance was measuring using 14 8x8 LED panels and compared against popular MAX7219 libraries.
+Performance was measured using 14 8x8 LED panels and compared against popular MAX7219 libraries.
 
 - Rendering all panels
   - **93% more performant**
