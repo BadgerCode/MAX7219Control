@@ -1,3 +1,8 @@
+/*
+For guides and info, see
+https://github.com/BadgerCode/MAX7219Control
+*/
+
 class MAX7219Control {
 private:
   int DataPin;
