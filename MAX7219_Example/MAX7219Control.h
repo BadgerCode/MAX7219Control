@@ -1,6 +1,23 @@
 /*
 For guides and info, see
 https://github.com/BadgerCode/MAX7219Control
+
+// Setup the controller
+LedController = new MAX7219Control(DATAPIN, CSPIN, CLKPIN, NUMPANELS);
+LedController->Initialise();
+LedController->SetBrightness(7); // 0-15
+
+// Clear panels
+LedController->ClearAllPanels();
+LedController->ClearPanel(panelNumber);
+
+// Update panels
+LedController->SetRow(panelNumber, row, B11001100);
+LedController->SetPanel(panel, new byte[8]{ B00000000, B00111100, B01100110, B01101110, B01110110, B01100110, B01100110, B00111100 });
+LedController->SetPanelReversed(panel, new byte[8]{ B00000000, B00111100, B01100110, B01101110, B01110110, B01100110, B01100110, B00111100 });
+
+// Render any changes (at the end of every loop iteration)
+LedController->RenderDisplays();
 */
 
 class MAX7219Control {
