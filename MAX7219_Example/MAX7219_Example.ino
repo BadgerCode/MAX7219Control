@@ -1,20 +1,10 @@
 #include "MAX7219Control.h"
 
-#define CLKPIN 10
-#define CSPIN 11
-#define DATAPIN 12
-#define NUMPANELS 16
-
-
-MAX7219Control* LedController;
-
-void setup() {
-  // put your setup code here, to run once:
-
-  LedController = new MAX7219Control(DATAPIN, CSPIN, CLKPIN, NUMPANELS);
-  LedController->Initialise();
-  LedController->SetBrightness(7);  // 0-15
-}
+const int MatrixPinDIN = 6;
+const int MatrixPinCS = 8;
+const int MatrixPinCLK = 7;
+const int NumberOfPanels = 14;
+int PanelBrightness = 7;  // 0-15. A greater brightness also increases power draw
 
 byte ASCIINumbers[16][8] = {
   { B00000000, B00111100, B01100110, B01101110, B01110110, B01100110, B01100110, B00111100 },  // 0
@@ -35,23 +25,49 @@ byte ASCIINumbers[16][8] = {
   { B01111100, B01111100, B01100000, B01111100, B01111100, B01100000, B01100000, B01100000 },  // F
 };
 
+MAX7219Control* LEDPanels;
+
+
+// Starting up sequence
+void setup() {
+  // Set up the LED matrix panels
+  LEDPanels = new MAX7219Control(MatrixPinDIN, MatrixPinCS, MatrixPinCLK, NumberOfPanels);
+  LEDPanels->Initialise();
+  LEDPanels->SetBrightness(PanelBrightness);
+}
+
+
 void loop() {
-  // put your main code here, to run repeatedly:
+  // EXAMPLE 1: Print a number on each panel
+  for (int panel = 0; panel < NumberOfPanels; panel++) {
+    // Option 1: Set the data for the whole panel (top-to-bottom)
+    // LEDPanels->SetPanel(panel, ASCIINumbers[panel]);
 
-  // Start with the first panel in the chain
-  for (int panel = 0; panel < NUMPANELS; panel++) {
+    // Option 2: Render one row at a time
+    // for (int row = 0; row < 8; row++) {
+    //   LEDPanels->SetRow(panel, row, ASCIINumbers[panel][row]);
+    // }
 
-    // Start with the top row
+
+    // UPSIDE DOWN PANELS
+    // Option 1: Set the data for the whole panel
+    // LEDPanels->SetFlippedPanel(panel, ASCIINumbers[panel]);
+
+    // Option 2: Render one row at a time
     for (int row = 0; row < 8; row++) {
-      LedController->SetRow(panel, row, ASCIINumbers[panel][row]);
+      LEDPanels->SetFlippedRow(panel, row, ASCIINumbers[panel][row]);
     }
-
-    // You can also do
-    // LedController->SetPanel(panel, ASCIINumbers[panel]);
-    // Or, to render bottom to top
-    // LedController->SetPanelReversed(panel, ASCIINumbers[panel]);
   }
 
-  // Update panels (if there are any changes)
-  LedController->RenderDisplays();
+
+  // EXAMPLE 2: Alternating lit up columns
+  // bool showAlt = (millis() / 1000) % 2 == 0;
+  // for (int p = 0; p < NumberOfPanels; p++) {
+  //   for (int i = 0; i < 8; i++) {
+  //     LEDPanels->SetRow(p, i, showAlt ? B01010101 : B10101010);
+  //   }
+  // }
+
+  // Render any updates
+  LEDPanels->RenderDisplays();
 }
