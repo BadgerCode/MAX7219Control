@@ -3,7 +3,7 @@
 const int MatrixPinDIN = 6;
 const int MatrixPinCS = 8;
 const int MatrixPinCLK = 7;
-const int NumberOfPanels = 14;
+const int NumberOfPanels = 16;
 int PanelBrightness = 7;  // 0-15. A greater brightness also increases power draw
 
 byte ASCIINumbers[16][8] = {
@@ -34,6 +34,9 @@ void setup() {
   LEDPanels = new MAX7219Control(MatrixPinDIN, MatrixPinCS, MatrixPinCLK, NumberOfPanels);
   LEDPanels->Initialise();
   LEDPanels->SetBrightness(PanelBrightness);
+
+  // Loose connections causing panels to turn off? Try this!
+  // LEDPanels->SetRapidAutoRecovery(true);
 }
 
 
