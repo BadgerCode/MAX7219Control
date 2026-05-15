@@ -77,6 +77,28 @@ public:
   }
 
   /**
+  * Renders rows of data to a panel, top to bottom
+  * panelNumber - Which panel the row is on. Starting from 0.
+  * rowsData - one byte of data per row
+  */
+  SetPanel(int panelNumber, byte* rowsData) {
+    for (int i = 0; i < NumRows; i++) {
+      SetRow(panelNumber, i, rowsData[i]);
+    }
+  }
+
+  /**
+  * Renders rows of data to a panel, bottom to top
+  * panelNumber - Which panel the row is on. Starting from 0.
+  * rowsData - one byte of data per row
+  */
+  SetPanelReversed(int panelNumber, byte* rowsData) {
+    for (int i = 0; i < NumRows; i++) {
+      SetRow(panelNumber, i, rowsData[NumRows - 1 - i]);
+    }
+  }
+
+  /**
   * panelNumber - Which panel the row is on. Starting from 0.
   * rowNumber - 0-7, from top to bottom
   * value - 8 bits to turn LEDs on/off, from left to right (0, 1, 2, 4, ...)
